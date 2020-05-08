@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+	<th:block th:include="include :: header('上传论文')" />
+	<th:block th:include="include :: bootstrap-fileinput-css"/>
+</head>
+<body class="white-bg">
+	<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+		<form class="form-horizontal m" id="form-user-resetPwd">
+			<input name="id"  type="hidden"  th:value="${id}" />
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">审核状态
+				</label>
+
+				<div class="col-sm-10">
+
+					<div class="radio check-box">
+						<label>
+							<input type="radio" value="3" name="dabianState"> <i></i> 已通过</label>
+					</div>
+					<div class="radio check-box">
+						<label>
+							<input type="radio" checked="" value="2" name="dabianState"> <i></i> 未通过</label>
+					</div>
+
+				</div>
+
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">负责答辩人：</label>
+				<div class="col-sm-8">
+					<input name="dabiancaozuoren" th:value="${dabiancaozuoren}" class="form-control"  type="text">
+				</div>
+			</div>
+		</form>
+	</div>
+	<th:block th:include="include :: footer" />
+	<th:block th:include="include :: bootstrap-fileinput-js"/>
+	<script type="text/javascript">
+		$("#form-user-resetPwd").validate({
+			rules:{
+				password:{
+					required:true,
+					minlength: 5,
+					maxlength: 20
+				},
+			},
+			focusCleanup: true
+		});
+		$(document).ready(function () {
+			$("#uploadfile").fileinput({
+				language: 'zh', //设置语言
+				uploadUrl: "/keti/keti/upload", //上传的地址
+				allowedFileExtensions: [],//接收的文件后缀
+				uploadAsync: true, //默认异步上传
+				showUpload: true, //是否显示上传按钮
+
+				showRemove: true, //显示移除按钮
+				showPreview: true, //是否显示预览
+				showCaption: false,//是否显示标题
+				browseClass: "btn btn-primary", //按钮样式
+				dropZoneEnabled: false,//是否显示拖拽区域
+				maxFileCount: 1, //表示允许同时上传的最大文件个数
+				enctype: 'multipart/form-data',
+				validateInitialCount: true
+			});
+			//异步上传返回结果处理
+			$("#uploadfile").on("fileuploaded", function (event, data, previewId, index) {
+				const response = data.response;
+				console.log(response)
+				$("#lunwenUrl").val(response.url);
+				$("#lunwenName").val(response.name);
+
+			});
+
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+						$.operate.save(ctx + "student/student/updateLunwen", $('#form-user-resetPwd').serialize());
+	        }
+	    }
+	</script>
+</body>
+
+</html>

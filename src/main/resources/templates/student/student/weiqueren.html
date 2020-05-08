@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+  <th:block th:include="include :: header('学生信息列表')"/>
+</head>
+<body class="gray-bg">
+<div class="container-div">
+  <div class="row">
+
+
+    <
+    <div class="col-sm-12 select-table table-striped">
+      <table id="bootstrap-table"></table>
+    </div>
+  </div>
+</div>
+<th:block th:include="include :: footer"/>
+<script th:inline="javascript">
+  var editFlag = [[${@permission.hasPermi('student:student:edit')}]];
+  var removeFlag = [[${@permission.hasPermi('student:student:remove')}]];
+  var shangchuanFlag = [[${@permission.hasPermi('student:student:shangchuan')}]];
+
+  var chakanlunwenFlag = [[${@permission.hasPermi('student:student:chakan')}]];
+  var editLunwenStateFlag = [[${@permission.hasPermi('student:student:updateLunwen')}]];
+  var shenheLunwenFlag = [[${@permission.hasPermi('student:student:shenhe')}]];
+  var sexDatas = [[${@dict.getType('sys_user_sex')}]];
+  var banjiDatas = [[${@dict.getType('zhuanye_banji')}]];
+  var xuantiStateDatas = [[${@dict.getType('student_xuanti')}]];
+  var lunwenStateDatas = [[${@dict.getType('lunwen_state')}]];
+  var dabianStateDatas = [[${@dict.getType('dabian_state')}]];
+  var prefix = ctx + "student/student";
+
+  $(function () {
+    var options = {
+      url: prefix + "/weiqueren",
+      createUrl: prefix + "/add",
+      updateUrl: prefix + "/edit/{id}",
+      removeUrl: prefix + "/remove",
+      exportUrl: prefix + "/export",
+      modalName: "学生信息",
+      escape: true,
+      showPageGo: true,
+      rememberSelected: true,
+      columns: [{
+        checkbox: true
+      },
+        {
+          field: 'id',
+          title: '主键id',
+          visible: false
+        },
+        {
+          field: 'name',
+          title: '姓名'
+        },
+        {
+          field: 'xuehao',
+          title: '学号'
+        },
+        {
+          field: 'sex',
+          title: '性别',
+          formatter: function (value, row, index) {
+            return $.table.selectDictLabel(sexDatas, value);
+          }
+        },
+        {
+          field: 'banji',
+          title: '专业班级',
+          formatter: function (value, row, index) {
+            return $.table.selectDictLabel(banjiDatas, value);
+          }
+        },
+        {
+          field: 'phone',
+          title: '联系方式'
+        },
+        {
+          field: 'xuantiState',
+          title: '是否选题',
+          formatter: function (value, row, index) {
+            return $.table.selectDictLabel(xuantiStateDatas, value);
+          }
+        },
+        {
+          field: 'lunwenState',
+          title: '论文状态',
+          formatter: function (value, row, index) {
+            return $.table.selectDictLabel(lunwenStateDatas, value);
+          }
+        },
+        {
+          field: 'dabianState',
+          title: '答辩状态',
+          formatter: function (value, row, index) {
+            return $.table.selectDictLabel(dabianStateDatas, value);
+          }
+        },
+        // {
+        //     field: 'ketiId',
+        //     title: '课题id'
+        // },
+        {
+          field: 'ketiName',
+          title: '课题名称'
+        },
+        {
+          field: 'lunwenName',
+          title: '论文名称'
+        },
+      ]
+    };
+    $.table.init(options);
+  });
+
+  //查看论文
+  function chakanlunwen(id) {
+    window.location.href = "/student/student/download?id=" + id;
+
+  }
+
+  //修改论文状态
+  function editDabianState(id) {
+    var url = prefix + '/updateLunwen/' + id;
+    $.modal.open("修改答辩状态", url, '800', '300');
+  }
+
+  //审核
+  function shenhe(id) {
+    var url = prefix + '/shenhe/' + id;
+    $.modal.open("审核", url, '800', '300');
+
+  }
+
+  function queren(id) {
+
+    $.modal.confirm("确认要上传论文吗？", function () {
+      $.ajax({
+        type: "POST",
+        contentType: "application/json;charset=UTF-8",
+        url: "/student/student/queren/" + id,
+        success: function (res) {
+          console.log(res)
+          if (res.code != 0) {
+            $.modal.msgError(res.msg);
+
+          } else {
+            $.modal.msgSuccess(res.msg);
+
+          }
+
+        }
+      });
+    })
+
+  }
+
+  function shangchuan(id) {
+
+    var url = prefix + '/shangchuan/' + id;
+    $.modal.open("上传论文", url, '800', '300');
+
+  }
+</script>
+</body>
+</html>

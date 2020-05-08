@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.student.mapper.SysStudentMapper">
+    
+    <resultMap type="SysStudent" id="SysStudentResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="xuehao"    column="xuehao"    />
+        <result property="sex"    column="sex"    />
+        <result property="banji"    column="banji"    />
+        <result property="phone"    column="phone"    />
+        <result property="xuantiState"    column="xuanti_state"    />
+        <result property="lunwenState"    column="lunwen_state"    />
+        <result property="dabianState"    column="dabian_state"    />
+        <result property="ketiId"    column="keti_id"    />
+        <result property="ketiName"    column="keti_name"    />
+        <result property="lunwenName"    column="lunwen_name"    />
+        <result property="lunwenUrl"    column="lunwen_url"    />
+        <result property="shenhecaozuoren"    column="shenhecaozuoren"    />
+        <result property="shneheshijian"    column="shneheshijian"    />
+        <result property="dabiancaozuoren"    column="dabiancaozuoren"    />
+        <result property="dabiancaozuoshijian"    column="dabiancaozuoshijian"    />
+    </resultMap>
+
+    <sql id="selectSysStudentVo">
+        select id, name, xuehao, sex, banji, phone, xuanti_state, lunwen_state, dabian_state, keti_id, keti_name, lunwen_name, lunwen_url,shenhecaozuoren,shneheshijian,dabiancaozuoren,dabiancaozuoshijian from sys_student
+    </sql>
+
+    <select id="selectSysStudentList" parameterType="SysStudent" resultMap="SysStudentResult">
+        <include refid="selectSysStudentVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="xuehao != null  and xuehao != ''"> and xuehao = #{xuehao}</if>
+            <if test="sex != null  and sex != ''"> and sex = #{sex}</if>
+            <if test="banji != null  and banji != ''"> and banji = #{banji}</if>
+            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
+            <if test="xuantiState != null  and xuantiState != ''"> and xuanti_state = #{xuantiState}</if>
+            <if test="lunwenState != null  and lunwenState != ''"> and lunwen_state = #{lunwenState}</if>
+            <if test="dabianState != null  and dabianState != ''"> and dabian_state = #{dabianState}</if>
+            <if test="ketiName != null  and ketiName != ''"> and keti_name like concat('%', #{ketiName}, '%')</if>
+            <if test="lunwenName != null  and lunwenName != ''"> and lunwen_name like concat('%', #{lunwenName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectSysStudentById" parameterType="Long" resultMap="SysStudentResult">
+        <include refid="selectSysStudentVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSysStudent" parameterType="SysStudent" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_student
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null  and name != ''">name,</if>
+            <if test="xuehao != null  and xuehao != ''">xuehao,</if>
+            <if test="sex != null  and sex != ''">sex,</if>
+            <if test="banji != null  and banji != ''">banji,</if>
+            <if test="phone != null  and phone != ''">phone,</if>
+            <if test="xuantiState != null  and xuantiState != ''">xuanti_state,</if>
+            <if test="lunwenState != null  and lunwenState != ''">lunwen_state,</if>
+            <if test="dabianState != null  and dabianState != ''">dabian_state,</if>
+            <if test="ketiId != null ">keti_id,</if>
+            <if test="ketiName != null  and ketiName != ''">keti_name,</if>
+            <if test="lunwenName != null  and lunwenName != ''">lunwen_name,</if>
+            <if test="lunwenUrl != null  and lunwenUrl != ''">lunwen_url,</if>
+            <if test="shenhecaozuoren != null  and shenhecaozuoren != ''">shenhecaozuoren,</if>
+            <if test="shneheshijian != null  and shneheshijian != ''">shneheshijian,</if>
+            <if test="dabiancaozuoren != null  and dabiancaozuoren != ''">dabiancaozuoren,</if>
+            <if test="dabiancaozuoshijian != null  and dabiancaozuoshijian != ''">dabiancaozuoshijian,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="xuehao != null  and xuehao != ''">#{xuehao},</if>
+            <if test="sex != null  and sex != ''">#{sex},</if>
+            <if test="banji != null  and banji != ''">#{banji},</if>
+            <if test="phone != null  and phone != ''">#{phone},</if>
+            <if test="xuantiState != null  and xuantiState != ''">#{xuantiState},</if>
+            <if test="lunwenState != null  and lunwenState != ''">#{lunwenState},</if>
+            <if test="dabianState != null  and dabianState != ''">#{dabianState},</if>
+            <if test="ketiId != null ">#{ketiId},</if>
+            <if test="ketiName != null  and ketiName != ''">#{ketiName},</if>
+            <if test="lunwenName != null  and lunwenName != ''">#{lunwenName},</if>
+            <if test="lunwenUrl != null  and lunwenUrl != ''">#{lunwenUrl},</if>
+            <if test="shenhecaozuoren != null  and shenhecaozuoren != ''">#{shenhecaozuoren},</if>
+            <if test="shneheshijian != null  and shneheshijian != ''">#{shneheshijian},</if>
+            <if test="dabiancaozuoren != null  and dabiancaozuoren != ''">#{dabiancaozuoren},</if>
+            <if test="dabiancaozuoshijian != null  and dabiancaozuoshijian != ''">#{dabiancaozuoshijian},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysStudent" parameterType="SysStudent">
+        update sys_student
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="xuehao != null  and xuehao != ''">xuehao = #{xuehao},</if>
+            <if test="sex != null  and sex != ''">sex = #{sex},</if>
+            <if test="banji != null  and banji != ''">banji = #{banji},</if>
+            <if test="phone != null  and phone != ''">phone = #{phone},</if>
+            <if test="xuantiState != null  and xuantiState != ''">xuanti_state = #{xuantiState},</if>
+            <if test="lunwenState != null  and lunwenState != ''">lunwen_state = #{lunwenState},</if>
+            <if test="dabianState != null  and dabianState != ''">dabian_state = #{dabianState},</if>
+            <if test="ketiId != null ">keti_id = #{ketiId},</if>
+            <if test="ketiName != null  and ketiName != ''">keti_name = #{ketiName},</if>
+            <if test="lunwenName != null  and lunwenName != ''">lunwen_name = #{lunwenName},</if>
+            <if test="lunwenUrl != null  and lunwenUrl != ''">lunwen_url = #{lunwenUrl},</if>
+            <if test="shenhecaozuoren != null  and shenhecaozuoren != ''">shenhecaozuoren = #{shenhecaozuoren},</if>
+            <if test="shneheshijian != null  and shneheshijian != ''">shneheshijian = #{shneheshijian},</if>
+            <if test="dabiancaozuoren != null  and dabiancaozuoren != ''">dabiancaozuoren = #{dabiancaozuoren},</if>
+            <if test="dabiancaozuoshijian != null  and dabiancaozuoshijian != ''">dabiancaozuoshijian = #{dabiancaozuoshijian},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSysStudentById" parameterType="Long">
+        delete from sys_student where id = #{id}
+    </delete>
+
+    <delete id="deleteSysStudentByIds" parameterType="String">
+        delete from sys_student where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

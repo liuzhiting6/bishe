@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.keti.mapper.SysKetiMapper">
+    
+    <resultMap type="SysKeti" id="SysKetiResult">
+        <result property="id"    column="id"    />
+        <result property="title"    column="title"    />
+        <result property="state"    column="state"    />
+        <result property="renwushuName"    column="renwushu_name"    />
+        <result property="renwushuUrl"    column="renwushu_url"    />
+        <result property="studentName"    column="student_name"    />
+        <result property="studentId"    column="student_id"    />
+        <result property="remark"    column="remark"    />
+        <result property="caozuoren"    column="caozuoren"    />
+        <result property="chuangjiantime"    column="chuangjiantime"    />
+    </resultMap>
+
+    <sql id="selectSysKetiVo">
+        select id, title, state, renwushu_name, renwushu_url, student_name, student_id, remark,caozuoren,chuangjiantime from sys_keti
+    </sql>
+
+    <select id="selectSysKetiList" parameterType="SysKeti" resultMap="SysKetiResult">
+        <include refid="selectSysKetiVo"/>
+        <where>  
+            <if test="title != null  and title != ''"> and title = #{title}</if>
+            <if test="state != null  and state != ''"> and state = #{state}</if>
+            <if test="renwushuName != null  and renwushuName != ''"> and renwushu_name like concat('%', #{renwushuName}, '%')</if>
+            <if test="renwushuUrl != null  and renwushuUrl != ''"> and renwushu_url = #{renwushuUrl}</if>
+            <if test="caozuoren != null  and caozuoren != ''"> and caozuoren = #{caozuoren}</if>
+            <if test="chuangjiantime != null  and chuangjiantime != ''"> and chuangjiantime = #{chuangjiantime}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysKetiById" parameterType="Long" resultMap="SysKetiResult">
+        <include refid="selectSysKetiVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSysKeti" parameterType="SysKeti" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_keti
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="title != null  and title != ''">title,</if>
+            <if test="state != null  and state != ''">state,</if>
+            <if test="renwushuName != null  and renwushuName != ''">renwushu_name,</if>
+            <if test="renwushuUrl != null  and renwushuUrl != ''">renwushu_url,</if>
+            <if test="studentName != null  and studentName != ''">student_name,</if>
+            <if test="studentId != null ">student_id,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="caozuoren != null  and caozuoren != ''">caozuoren,</if>
+            <if test="chuangjiantime != null  and chuangjiantime != ''">chuangjiantime,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="title != null  and title != ''">#{title},</if>
+            <if test="state != null  and state != ''">#{state},</if>
+            <if test="renwushuName != null  and renwushuName != ''">#{renwushuName},</if>
+            <if test="renwushuUrl != null  and renwushuUrl != ''">#{renwushuUrl},</if>
+            <if test="studentName != null  and studentName != ''">#{studentName},</if>
+            <if test="studentId != null ">#{studentId},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="caozuoren != null  and caozuoren != ''">#{caozuoren},</if>
+            <if test="chuangjiantime != null  and chuangjiantime != ''">#{chuangjiantime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysKeti" parameterType="SysKeti">
+        update sys_keti
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="title != null  and title != ''">title = #{title},</if>
+            <if test="state != null  and state != ''">state = #{state},</if>
+            <if test="renwushuName != null  and renwushuName != ''">renwushu_name = #{renwushuName},</if>
+            <if test="renwushuUrl != null  and renwushuUrl != ''">renwushu_url = #{renwushuUrl},</if>
+            <if test="studentName != null  and studentName != ''">student_name = #{studentName},</if>
+            <if test="studentId != null ">student_id = #{studentId},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="caozuoren != null  and caozuoren != ''">caozuoren = #{caozuoren},</if>
+            <if test="chuangjiantime != null  and chuangjiantime != ''">chuangjiantime = #{chuangjiantime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSysKetiById" parameterType="Long">
+        delete from sys_keti where id = #{id}
+    </delete>
+
+    <delete id="deleteSysKetiByIds" parameterType="String">
+        delete from sys_keti where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

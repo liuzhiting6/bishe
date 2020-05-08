@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.teacher.mapper.SysTeacherMapper">
+    
+    <resultMap type="SysTeacher" id="SysTeacherResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="sex"    column="sex"    />
+        <result property="gonghao"    column="gonghao"    />
+        <result property="zhiwei"    column="zhiwei"    />
+        <result property="phone"    column="phone"    />
+        <result property="fabuKetiState"    column="fabu_keti_state"    />
+        <result property="lunwenShenheState"    column="lunwen_shenhe_state"    />
+        <result property="dabianGongzuoState"    column="dabian_gongzuo_state"    />
+    </resultMap>
+
+    <sql id="selectSysTeacherVo">
+        select id, name, sex, gonghao, zhiwei, phone, fabu_keti_state, lunwen_shenhe_state, dabian_gongzuo_state from sys_teacher
+    </sql>
+
+    <select id="selectSysTeacherList" parameterType="SysTeacher" resultMap="SysTeacherResult">
+        <include refid="selectSysTeacherVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="sex != null  and sex != ''"> and sex = #{sex}</if>
+            <if test="gonghao != null  and gonghao != ''"> and gonghao = #{gonghao}</if>
+            <if test="zhiwei != null  and zhiwei != ''"> and zhiwei = #{zhiwei}</if>
+            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
+            <if test="fabuKetiState != null  and fabuKetiState != ''"> and fabu_keti_state = #{fabuKetiState}</if>
+            <if test="lunwenShenheState != null  and lunwenShenheState != ''"> and lunwen_shenhe_state = #{lunwenShenheState}</if>
+            <if test="dabianGongzuoState != null  and dabianGongzuoState != ''"> and dabian_gongzuo_state = #{dabianGongzuoState}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysTeacherById" parameterType="Long" resultMap="SysTeacherResult">
+        <include refid="selectSysTeacherVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSysTeacher" parameterType="SysTeacher" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_teacher
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null  and name != ''">name,</if>
+            <if test="sex != null  and sex != ''">sex,</if>
+            <if test="gonghao != null  and gonghao != ''">gonghao,</if>
+            <if test="zhiwei != null  and zhiwei != ''">zhiwei,</if>
+            <if test="phone != null  and phone != ''">phone,</if>
+            <if test="fabuKetiState != null  and fabuKetiState != ''">fabu_keti_state,</if>
+            <if test="lunwenShenheState != null  and lunwenShenheState != ''">lunwen_shenhe_state,</if>
+            <if test="dabianGongzuoState != null  and dabianGongzuoState != ''">dabian_gongzuo_state,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="sex != null  and sex != ''">#{sex},</if>
+            <if test="gonghao != null  and gonghao != ''">#{gonghao},</if>
+            <if test="zhiwei != null  and zhiwei != ''">#{zhiwei},</if>
+            <if test="phone != null  and phone != ''">#{phone},</if>
+            <if test="fabuKetiState != null  and fabuKetiState != ''">#{fabuKetiState},</if>
+            <if test="lunwenShenheState != null  and lunwenShenheState != ''">#{lunwenShenheState},</if>
+            <if test="dabianGongzuoState != null  and dabianGongzuoState != ''">#{dabianGongzuoState},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysTeacher" parameterType="SysTeacher">
+        update sys_teacher
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="sex != null  and sex != ''">sex = #{sex},</if>
+            <if test="gonghao != null  and gonghao != ''">gonghao = #{gonghao},</if>
+            <if test="zhiwei != null  and zhiwei != ''">zhiwei = #{zhiwei},</if>
+            <if test="phone != null  and phone != ''">phone = #{phone},</if>
+            <if test="fabuKetiState != null  and fabuKetiState != ''">fabu_keti_state = #{fabuKetiState},</if>
+            <if test="lunwenShenheState != null  and lunwenShenheState != ''">lunwen_shenhe_state = #{lunwenShenheState},</if>
+            <if test="dabianGongzuoState != null  and dabianGongzuoState != ''">dabian_gongzuo_state = #{dabianGongzuoState},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSysTeacherById" parameterType="Long">
+        delete from sys_teacher where id = #{id}
+    </delete>
+
+    <delete id="deleteSysTeacherByIds" parameterType="String">
+        delete from sys_teacher where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>
